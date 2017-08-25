@@ -1,4 +1,4 @@
-package com.example.android.data.Model;
+package com.example.android.data.model;
 
 
 public class DataItem
