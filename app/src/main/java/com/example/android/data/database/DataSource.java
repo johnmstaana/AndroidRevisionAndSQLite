@@ -14,9 +14,7 @@ import com.example.android.data.model.DataItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by John on 8/28/2017.
- */
+
 
 public class DataSource
 {
@@ -92,7 +90,7 @@ public class DataSource
                     cursor.getColumnIndex(ItemsTable.COLUMN_IMAGE)));
             dataItems.add(item);
         }
-
+        cursor.close();
         return dataItems;
     }
 }

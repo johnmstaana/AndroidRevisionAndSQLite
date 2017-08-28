@@ -36,17 +36,7 @@ public class MainActivity extends AppCompatActivity
         mDatasource = new DataSource(this);
         mDatasource.open();
         mDatasource.seedDatabase(dataItemList);
-        Toast.makeText(this, "Database acquired!", Toast.LENGTH_SHORT).show();
 
-//
-//        Collections.sort(dataItemList, new Comparator<DataItem>()
-//        {
-//            @Override
-//            public int compare(DataItem o1, DataItem o2)
-//            {
-//                return o1.getItemName().compareTo(o2.getItemName());
-//            }
-//        });
 
         List<DataItem> listFromDB = mDatasource.getAllItems();
 
