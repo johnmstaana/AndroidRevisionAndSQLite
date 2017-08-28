@@ -2,7 +2,8 @@ package com.example.android.data;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.support.v7.widget.RecyclerView;
+import android.widget.ListView;
 
 import com.example.android.data.model.DataItem;
 import com.example.android.data.sample.SampleDataProvider;
@@ -14,7 +15,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
 
-    TextView tvOut;
     List<DataItem> dataItemList = SampleDataProvider.dataItemList;
 
     @Override
@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvOut = (TextView) findViewById(R.id.out);
-        tvOut.setText("");
 
         Collections.sort(dataItemList, new Comparator<DataItem>()
         {
@@ -34,9 +32,10 @@ public class MainActivity extends AppCompatActivity
                 return o1.getItemName().compareTo(o2.getItemName());
             }
         });
-        for (DataItem item : dataItemList) {
-            tvOut.append(item.getItemName() + "\n");
-        }
 
+
+        DataItemAdapter adapter = new DataItemAdapter(this, dataItemList);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvItems);
+        recyclerView.setAdapter(adapter);
     }
 }
