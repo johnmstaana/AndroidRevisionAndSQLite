@@ -14,12 +14,12 @@ import com.example.android.data.model.DataItem;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class DataSource
 {
+
     private Context mContext;
     private SQLiteDatabase mDatabase;
-    private SQLiteOpenHelper mDbHelper;
+    SQLiteOpenHelper mDbHelper;
 
     public DataSource(Context context)
     {
@@ -42,7 +42,6 @@ public class DataSource
     {
         ContentValues values = item.toValues();
         mDatabase.insert(ItemsTable.TABLE_ITEMS, null, values);
-
         return item;
     }
 
@@ -55,7 +54,8 @@ public class DataSource
     {
         long numItems = getDataItemsCount();
         if (numItems == 0) {
-            for (DataItem item : dataItemList) {
+            for (DataItem item :
+                    dataItemList) {
                 try {
                     createItem(item);
                 } catch (SQLiteException e) {
@@ -63,14 +63,22 @@ public class DataSource
                 }
             }
         }
-
     }
 
-    public List<DataItem> getAllItems()
+    public List<DataItem> getAllItems(String category)
     {
         List<DataItem> dataItems = new ArrayList<>();
-        Cursor cursor = mDatabase.query(ItemsTable.TABLE_ITEMS, ItemsTable.ALL_CULUMNS,
-                null, null, null, null, null);
+
+        Cursor cursor = null;
+        if (category == null) {
+            cursor = mDatabase.query(ItemsTable.TABLE_ITEMS, ItemsTable.ALL_COLUMNS,
+                    null, null, null, null, ItemsTable.COLUMN_NAME);
+        } else {
+            String[] categories = {category};
+            cursor = mDatabase.query(ItemsTable.TABLE_ITEMS, ItemsTable.ALL_COLUMNS,
+                    ItemsTable.COLUMN_CATEGORY + "=?", categories, null, null, ItemsTable.COLUMN_NAME);
+        }
+
         while (cursor.moveToNext()) {
             DataItem item = new DataItem();
             item.setItemId(cursor.getString(
